@@ -1,302 +1,337 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Colorful Reverse Pomodoro Timer</title>
     <style>
-      body {
-        margin: 0;
-        padding: 0;
-        font-family: "Arial", sans-serif;
-        background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
-        background-size: 400% 400%;
-        animation: gradientBG 15s ease infinite;
-        color: white;
-        overflow: hidden;
-        height: 100vh;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
-      }
-
-      @keyframes gradientBG {
-        0% {
-          background-position: 0% 50%;
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            color: white;
+            overflow: hidden;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-shadow: 0 0 5px rgba(0,0,0,0.5);
         }
-        50% {
-          background-position: 100% 50%;
+        
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
-        100% {
-          background-position: 0% 50%;
+        
+        #rain-container {
+            position: absolute;
+            width: calc(100% - 40px);
+            height: calc(100% - 40px);
+            margin: 20px;
+            z-index: 1;
+            border-radius: 15px;
+            overflow: hidden;
         }
-      }
-
-      #rain-container {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        z-index: -1;
-      }
-
-      .drop {
-        position: absolute;
-        width: 3px;
-        height: 25px;
-        background: currentColor;
-        border-radius: 0 0 10px 10px;
-        animation: rain linear infinite;
-        opacity: 0.7;
-      }
-
-      @keyframes rain {
-        0% {
-          transform: translateY(-100vh);
+        
+        .drop {
+            position: absolute;
+            width: 3px;
+            height: 25px;
+            background: currentColor;
+            border-radius: 0 0 10px 10px;
+            animation: rain linear infinite;
+            opacity: 0.7;
         }
-        100% {
-          transform: translateY(100vh);
+        
+        @keyframes rain {
+            0% {
+                transform: translateY(-100vh);
+            }
+            100% {
+                transform: translateY(100vh);
+            }
         }
-      }
-
-      #timer-container {
-        text-align: center;
-        background-color: rgba(0, 0, 0, 0.5);
-        padding: 30px;
-        border-radius: 15px;
-        box-shadow: 0 0 30px rgba(0, 0, 0, 0.7);
-        backdrop-filter: blur(5px);
-        border: 1px solid rgba(255, 255, 255, 0.2);
-      }
-
-      #timer {
-        font-size: 6rem;
-        font-weight: bold;
-        margin: 20px 0;
-        font-family: "Courier New", monospace;
-      }
-
-      #status {
-        font-size: 2rem;
-        margin-bottom: 20px;
-        text-transform: uppercase;
-        letter-spacing: 2px;
-      }
-
-      #progress-container {
-        width: 100%;
-        height: 10px;
-        background-color: rgba(255, 255, 255, 0.2);
-        border-radius: 5px;
-        margin: 20px 0;
-        overflow: hidden;
-      }
-
-      #progress-bar {
-        height: 100%;
-        border-radius: 5px;
-        background: linear-gradient(90deg, #ff4d4d, #f9cb28);
-        width: 100%;
-        transition: width 1s linear;
-      }
-
-      button {
-        background: rgba(255, 255, 255, 0.2);
-        border: 1px solid rgba(255, 255, 255, 0.3);
-        color: white;
-        padding: 12px 25px;
-        text-align: center;
-        text-decoration: none;
-        display: inline-block;
-        font-size: 16px;
-        margin: 10px 5px;
-        cursor: pointer;
-        border-radius: 30px;
-        transition: all 0.3s;
-        min-width: 100px;
-      }
-
-      button:hover {
-        background: rgba(255, 255, 255, 0.3);
-        transform: translateY(-2px);
-      }
-
-      button:disabled {
-        background: rgba(255, 255, 255, 0.1);
-        cursor: not-allowed;
-        transform: none;
-      }
-
-      #start-btn {
-        background: linear-gradient(45deg, #4caf50, #8bc34a);
-      }
-
-      #pause-btn {
-        background: linear-gradient(45deg, #ff9800, #ffc107);
-      }
-
-      #reset-btn {
-        background: linear-gradient(45deg, #f44336, #e91e63);
-      }
+        
+        #timer-container {
+            text-align: center;
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 40px;
+            border-radius: 25px;
+            box-shadow: 0 0 40px rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255,255,255,0.3);
+            width: calc(100% - 80px);
+            max-width: 800px;
+            z-index: 2;
+            position: relative;
+            margin: 20px;
+        }
+        
+        #timer {
+            font-size: 7rem;
+            font-weight: bold;
+            margin: 30px 0;
+            font-family: 'Courier New', monospace;
+            letter-spacing: 2px;
+        }
+        
+        #status {
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            font-weight: bold;
+        }
+        
+        #progress-container {
+            width: 100%;
+            height: 15px;
+            background-color: rgba(255,255,255,0.2);
+            border-radius: 10px;
+            margin: 30px 0;
+            overflow: hidden;
+        }
+        
+        #progress-bar {
+            height: 100%;
+            border-radius: 10px;
+            background: linear-gradient(90deg, #ff4d4d, #f9cb28);
+            width: 100%;
+            transition: width 1s linear;
+        }
+        
+        button {
+            background: rgba(255,255,255,0.2);
+            border: 1px solid rgba(255,255,255,0.4);
+            color: white;
+            padding: 15px 30px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 18px;
+            margin: 15px 10px;
+            cursor: pointer;
+            border-radius: 35px;
+            transition: all 0.3s;
+            min-width: 120px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+        
+        button:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        
+        button:disabled {
+            background: rgba(255,255,255,0.1);
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        #start-btn {
+            background: linear-gradient(45deg, #4CAF50, #8BC34A);
+        }
+        
+        #pause-btn {
+            background: linear-gradient(45deg, #FF9800, #FFC107);
+        }
+        
+        #reset-btn {
+            background: linear-gradient(45deg, #F44336, #E91E63);
+        }
     </style>
-  </head>
-  <body>
+</head>
+<body>
     <div id="rain-container"></div>
-
+    
     <div id="timer-container">
-      <div id="status">WORK SESSION</div>
-      <div id="timer">50:00</div>
-      <div id="progress-container">
-        <div id="progress-bar"></div>
-      </div>
-      <div>
-        <button id="start-btn">Start</button>
-        <button id="pause-btn" disabled>Pause</button>
-        <button id="reset-btn">Reset</button>
-      </div>
+        <div id="status">WORK SESSION</div>
+        <div id="timer">50:00</div>
+        <div id="progress-container">
+            <div id="progress-bar"></div>
+        </div>
+        <div>
+            <button id="start-btn">Start</button>
+            <button id="pause-btn" disabled>Pause</button>
+            <button id="reset-btn">Reset</button>
+        </div>
     </div>
 
     <script>
-      // Create colorful rain effect
-      function createRain() {
-        const rainContainer = document.getElementById("rain-container");
-        const rainCount = 200;
-        const colors = [
-          "#FF5252",
-          "#FF4081",
-          "#E040FB",
-          "#7C4DFF",
-          "#536DFE",
-          "#448AFF",
-          "#40C4FF",
-          "#18FFFF",
-          "#64FFDA",
-          "#69F0AE",
-          "#B2FF59",
-          "#EEFF41",
-          "#FFFF00",
-          "#FFD740",
-          "#FFAB40",
-          "#FF6E40",
-        ];
-
-        for (let i = 0; i < rainCount; i++) {
-          const drop = document.createElement("div");
-          drop.className = "drop";
-          drop.style.left = Math.random() * 100 + "vw";
-          drop.style.animationDuration = Math.random() * 0.7 + 0.3 + "s";
-          drop.style.animationDelay = Math.random() * 3 + "s";
-          drop.style.opacity = Math.random() * 0.6 + 0.3;
-          drop.style.height = Math.random() * 25 + 15 + "px";
-          drop.style.color = colors[Math.floor(Math.random() * colors.length)];
-
-          // Add splash effect
-          if (Math.random() > 0.9) {
-            drop.style.borderRadius = "50%";
-            drop.style.width = drop.style.height;
-            drop.style.animationName = "splash";
-            drop.style.animationDuration = "1s";
-          }
-
-          rainContainer.appendChild(drop);
-        }
-      }
-
-      // Timer logic
-      let timer;
-      let totalSeconds = 50 * 60; // 50 minutes
-      let isWorkSession = true;
-      let isRunning = false;
-
-      const timerDisplay = document.getElementById("timer");
-      const statusDisplay = document.getElementById("status");
-      const progressBar = document.getElementById("progress-bar");
-      const startBtn = document.getElementById("start-btn");
-      const pauseBtn = document.getElementById("pause-btn");
-      const resetBtn = document.getElementById("reset-btn");
-
-      function formatTime(seconds) {
-        const mins = Math.floor(seconds / 60);
-        const secs = seconds % 60;
-        return `${mins.toString().padStart(2, "0")}:${secs
-          .toString()
-          .padStart(2, "0")}`;
-      }
-
-      function updateDisplay() {
-        timerDisplay.textContent = formatTime(totalSeconds);
-        const totalTime = isWorkSession ? 50 * 60 : 10 * 60;
-        const progress = (totalSeconds / totalTime) * 100;
-        progressBar.style.width = `${progress}%`;
-
-        // Change progress bar color based on session
-        if (isWorkSession) {
-          progressBar.style.background =
-            "linear-gradient(90deg, #ff4d4d, #f9cb28)";
-        } else {
-          progressBar.style.background =
-            "linear-gradient(90deg, #4b6cb7, #182848)";
-        }
-      }
-
-      function startTimer() {
-        if (!isRunning) {
-          isRunning = true;
-          startBtn.disabled = true;
-          pauseBtn.disabled = false;
-
-          timer = setInterval(() => {
-            totalSeconds--;
-            updateDisplay();
-
-            if (totalSeconds <= 0) {
-              clearInterval(timer);
-              isWorkSession = !isWorkSession;
-              totalSeconds = isWorkSession ? 50 * 60 : 10 * 60;
-              statusDisplay.textContent = isWorkSession
-                ? "WORK SESSION"
-                : "BREAK TIME";
-
-              // Change status color
-              statusDisplay.style.color = isWorkSession ? "#FF5252" : "#448AFF";
-
-              // Play a sound when session changes
-              const audio = new Audio(
-                "https://assets.mixkit.co/sfx/preview/mixkit-alarm-digital-clock-beep-989.mp3"
-              );
-              audio.play();
-
-              startTimer();
+        // Create colorful rain effect
+        function createRain() {
+            const rainContainer = document.getElementById('rain-container');
+            const rainCount = 250;
+            const colors = [
+                '#FF5252', '#FF4081', '#E040FB', '#7C4DFF', 
+                '#536DFE', '#448AFF', '#40C4FF', '#18FFFF', 
+                '#64FFDA', '#69F0AE', '#B2FF59', '#EEFF41', 
+                '#FFFF00', '#FFD740', '#FFAB40', '#FF6E40'
+            ];
+            
+            for (let i = 0; i < rainCount; i++) {
+                const drop = document.createElement('div');
+                drop.className = 'drop';
+                drop.style.left = Math.random() * 100 + '%';
+                drop.style.animationDuration = (Math.random() * 0.7 + 0.3) + 's';
+                drop.style.animationDelay = Math.random() * 3 + 's';
+                drop.style.opacity = Math.random() * 0.6 + 0.3;
+                drop.style.height = (Math.random() * 30 + 20) + 'px';
+                drop.style.color = colors[Math.floor(Math.random() * colors.length)];
+                
+                // Add splash effect
+                if (Math.random() > 0.9) {
+                    drop.style.borderRadius = '50%';
+                    drop.style.width = drop.style.height;
+                    drop.style.animationName = 'splash';
+                    drop.style.animationDuration = '1s';
+                }
+                
+                rainContainer.appendChild(drop);
             }
-          }, 1000);
         }
-      }
-
-      function pauseTimer() {
-        clearInterval(timer);
-        isRunning = false;
-        startBtn.disabled = false;
-        pauseBtn.disabled = true;
-      }
-
-      function resetTimer() {
-        pauseTimer();
-        isWorkSession = true;
-        totalSeconds = 50 * 60;
-        statusDisplay.textContent = "WORK SESSION";
-        statusDisplay.style.color = "#FF5252";
-        updateDisplay();
-      }
-
-      startBtn.addEventListener("click", startTimer);
-      pauseBtn.addEventListener("click", pauseTimer);
-      resetBtn.addEventListener("click", resetTimer);
-
-      // Initialize
-      createRain();
-      statusDisplay.style.color = "#FF5252";
-      updateDisplay();
+        
+        // Timer logic
+        let timer;
+        let totalSeconds = 50 * 60;
+        let isWorkSession = true;
+        let isRunning = false;
+        let audioContext;
+        let alarmSound;
+        
+        // Initialize audio context
+        function initAudio() {
+            try {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                
+                // Create a simple beep sound
+                function createBeep() {
+                    const oscillator = audioContext.createOscillator();
+                    const gainNode = audioContext.createGain();
+                    
+                    oscillator.connect(gainNode);
+                    gainNode.connect(audioContext.destination);
+                    
+                    oscillator.type = 'sine';
+                    oscillator.frequency.value = 800;
+                    gainNode.gain.value = 0.5;
+                    
+                    oscillator.start();
+                    gainNode.gain.exponentialRampToValueAtTime(0.00001, audioContext.currentTime + 0.5);
+                    oscillator.stop(audioContext.currentTime + 0.5);
+                }
+                
+                alarmSound = createBeep;
+            } catch (e) {
+                console.error('Audio initialization failed:', e);
+                // Fallback to silent operation
+                alarmSound = () => {};
+            }
+        }
+        
+        const timerDisplay = document.getElementById('timer');
+        const statusDisplay = document.getElementById('status');
+        const progressBar = document.getElementById('progress-bar');
+        const startBtn = document.getElementById('start-btn');
+        const pauseBtn = document.getElementById('pause-btn');
+        const resetBtn = document.getElementById('reset-btn');
+        
+        function formatTime(seconds) {
+            const mins = Math.floor(seconds / 60);
+            const secs = seconds % 60;
+            return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+        }
+        
+        function updateDisplay() {
+            timerDisplay.textContent = formatTime(totalSeconds);
+            const totalTime = isWorkSession ? 50 * 60 : 10 * 60;
+            const progress = (totalSeconds / totalTime) * 100;
+            progressBar.style.width = `${progress}%`;
+            
+            if (isWorkSession) {
+                progressBar.style.background = 'linear-gradient(90deg, #ff4d4d, #f9cb28)';
+                statusDisplay.style.color = '#FF5252';
+            } else {
+                progressBar.style.background = 'linear-gradient(90deg, #4b6cb7, #182848)';
+                statusDisplay.style.color = '#448AFF';
+            }
+        }
+        
+        function startTimer() {
+            if (!isRunning) {
+                isRunning = true;
+                startBtn.disabled = true;
+                pauseBtn.disabled = false;
+                
+                timer = setInterval(() => {
+                    totalSeconds--;
+                    updateDisplay();
+                    
+                    if (totalSeconds <= 0) {
+                        clearInterval(timer);
+                        isWorkSession = !isWorkSession;
+                        totalSeconds = isWorkSession ? 50 * 60 : 10 * 60;
+                        statusDisplay.textContent = isWorkSession ? 'WORK SESSION' : 'BREAK TIME';
+                        
+                        // Play alarm sound
+                        if (alarmSound) {
+                            try {
+                                alarmSound();
+                            } catch (e) {
+                                console.error('Error playing sound:', e);
+                            }
+                        }
+                        
+                        startTimer();
+                    }
+                }, 1000);
+            }
+        }
+        
+        function pauseTimer() {
+            clearInterval(timer);
+            isRunning = false;
+            startBtn.disabled = false;
+            pauseBtn.disabled = true;
+        }
+        
+        function resetTimer() {
+            pauseTimer();
+            isWorkSession = true;
+            totalSeconds = 50 * 60;
+            statusDisplay.textContent = 'WORK SESSION';
+            updateDisplay();
+        }
+        
+        // Initialize on user interaction
+        function initOnInteraction() {
+            initAudio();
+            createRain();
+            updateDisplay();
+            
+            // Remove event listeners after first interaction
+            document.removeEventListener('click', initOnInteraction);
+            document.removeEventListener('keydown', initOnInteraction);
+            document.removeEventListener('touchstart', initOnInteraction);
+        }
+        
+        // Set up initial event listeners for audio context
+        document.addEventListener('click', initOnInteraction);
+        document.addEventListener('keydown', initOnInteraction);
+        document.addEventListener('touchstart', initOnInteraction);
+        
+        // Button event listeners
+        startBtn.addEventListener('click', startTimer);
+        pauseBtn.addEventListener('click', pauseTimer);
+        resetBtn.addEventListener('click', resetTimer);
     </script>
-  </body>
+</body>
 </html>
